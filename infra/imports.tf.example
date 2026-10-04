@@ -3,7 +3,7 @@
 # 1. Create a firewall rule by hand, outside Terraform (after the dev workspace is provisioned):
 #      gcloud compute firewall-rules create iacm-showcase-dev-manual-http \
 #        --network=iacm-showcase-dev --allow=tcp:80 --source-ranges=10.0.0.0/8
-# 2. Replace <PROJECT_ID> below, rename this file to imports.tf, commit, and run the provision pipeline.
+# 2. Rename this file to imports.tf, commit, and run the provision pipeline.
 #    The plan shows "1 to import" instead of "1 to add".
 # 3. After a successful apply, delete the import block (the resource block stays).
 #
@@ -11,7 +11,7 @@
 
 import {
   to = google_compute_firewall.manual_http
-  id = "projects/<PROJECT_ID>/global/firewalls/iacm-showcase-dev-manual-http"
+  id = "projects/customer-success-244100/global/firewalls/iacm-showcase-dev-manual-http"
 }
 
 resource "google_compute_firewall" "manual_http" {

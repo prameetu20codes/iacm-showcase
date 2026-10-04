@@ -1,5 +1,6 @@
 variable "project_id" {
-  type = string
+  type    = string
+  default = "customer-success-244100"
 }
 
 provider "google" {

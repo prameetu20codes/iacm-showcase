@@ -1,8 +1,8 @@
 pipeline:
   name: iacm-showcase-pr-plan
   identifier: iacm_showcase_pr_plan
-  orgIdentifier: <ORG_ID>
-  projectIdentifier: <PROJECT_ID>
+  orgIdentifier: testprameet
+  projectIdentifier: testproj
   tags:
     showcase: iacm
   stages:

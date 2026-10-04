@@ -1,8 +1,8 @@
 pipeline:
   name: iacm-showcase-drift
   identifier: iacm_showcase_drift
-  orgIdentifier: <ORG_ID>
-  projectIdentifier: <PROJECT_ID>
+  orgIdentifier: testprameet
+  projectIdentifier: testproj
   tags:
     showcase: iacm
   stages:

@@ -2,8 +2,8 @@ trigger:
   name: pr-plan-on-pull-request
   identifier: pr_plan_on_pull_request
   enabled: true
-  orgIdentifier: <ORG_ID>
-  projectIdentifier: <PROJECT_ID>
+  orgIdentifier: testprameet
+  projectIdentifier: testproj
   pipelineIdentifier: iacm_showcase_pr_plan
   source:
     type: Webhook

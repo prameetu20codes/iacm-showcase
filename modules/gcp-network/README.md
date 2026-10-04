@@ -6,7 +6,7 @@ Creates a custom-mode VPC with one regional subnet (Private Google Access on) an
 
 ```hcl
 module "network" {
-  source  = "app.harness.io/<HARNESS_ACCOUNT_ID>/gcp-network/google"
+  source  = "app.harness.io/jDOmhrFmSOGZJ1C91UC_hg/gcp-network/google"
   version = "<VERSION>"
 
   project_id  = "my-project"

@@ -2,8 +2,8 @@ trigger:
   name: drift-check-every-6h
   identifier: drift_check_every_6h
   enabled: true
-  orgIdentifier: <ORG_ID>
-  projectIdentifier: <PROJECT_ID>
+  orgIdentifier: testprameet
+  projectIdentifier: testproj
   pipelineIdentifier: iacm_showcase_drift
   source:
     type: Scheduled

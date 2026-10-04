@@ -33,11 +33,22 @@ triggers/*.yaml             PR webhook trigger, 6-hourly drift cron trigger
 
 ## Setup runbook
 
-Placeholders used below: `<ORG_ID>`, `<PROJECT_ID>` (Harness), `<GCP_PROJECT_ID>`, `<HARNESS_ACCOUNT_ID>`, `<GITHUB_CONNECTOR_ID>`.
+Values used in this repo:
+
+- Harness account ID: `jDOmhrFmSOGZJ1C91UC_hg`
+- Harness org ID: `testprameet`
+- Harness project ID: `testproj`
+- GCP project ID: `customer-success-244100`
+
+Still to fill in: `<GITHUB_CONNECTOR_ID>` in `triggers/pr-plan-trigger.yaml`, and the module `<VERSION>` values in `infra/main.tf` (step 4).
 
 ### 1. GCP prerequisites
 
-1. Enable the Compute Engine and Cloud Storage APIs on `<GCP_PROJECT_ID>`.
+1. Enable the Compute Engine and Cloud Storage APIs on `customer-success-244100`:
+
+   ```bash
+   gcloud services enable compute.googleapis.com storage.googleapis.com --project customer-success-244100
+   ```
 2. Create a service account (or OIDC workload identity) for Harness with Compute Admin and Storage Admin on the project.
 
 ### 2. GitHub repo
@@ -69,7 +80,7 @@ Infrastructure as Code Management > Module Registry > New Module, once per modul
 | Git Tag Pattern | `gcp-network-v*` | `gcp-bucket-v*` |
 | Execution pipeline | `iacm_auto_generated_onboarding_pipeline`, auto-sync on | same |
 
-After the onboarding pipeline runs, open each module's **Instructions** tab and copy the `source` and `version` into the two `module` blocks in `infra/main.tf`, replacing `<HARNESS_ACCOUNT_ID>` and `<VERSION>`. Commit and push.
+After the onboarding pipeline runs, open each module's **Instructions** tab and copy the `version` into the two `module` blocks in `infra/main.tf`, replacing `<VERSION>`. The `source` is already set to `app.harness.io/jDOmhrFmSOGZJ1C91UC_hg/<module>/google`; confirm it matches the Instructions tab. Commit and push.
 
 Optional: set up **module testing** on each module. A PR targeting `main` then runs the `examples/basic` integration test.
 
@@ -77,7 +88,7 @@ Optional: set up **module testing** on each module. A PR targeting `main` then r
 
 Account Settings > IaCM Settings > Variable Sets > create `gcp-showcase-defaults`:
 
-- Terraform variable `project_id` = `<GCP_PROJECT_ID>`
+- Terraform variable `project_id` = `customer-success-244100`
 - Terraform variable `owner` = your name in lowercase
 - Terraform variable `cost_center` = `demo`
 
@@ -111,7 +122,7 @@ Plan policy sets run automatically on every plan. They do not appear in the plan
 
 ### 9. Pipelines and triggers
 
-1. Replace `<ORG_ID>` / `<PROJECT_ID>` in `pipelines/*.yaml` and paste each into a new pipeline's YAML editor. If the editor flags a field, generate the same stage from the UI (Infrastructure stage > Provision / Pull Request / Detect Drift / Destroy operation) and compare.
+1. In org `testprameet`, project `testproj`, paste each file in `pipelines/` into a new pipeline's YAML editor. If the editor flags a field, generate the same stage from the UI (Infrastructure stage > Provision / Pull Request / Detect Drift / Destroy operation) and compare.
 2. Create the triggers from `triggers/*.yaml` (replace `<GITHUB_CONNECTOR_ID>`).
 3. Project Settings > IaCM Settings > **Default Pipelines**: set Plan = `iacm-showcase-pr-plan`, Provision = `iacm-showcase-provision`, Drift = `iacm-showcase-drift`, Destroy = `iacm-showcase-destroy`. The workspace action buttons then use them.
 

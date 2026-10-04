@@ -6,7 +6,7 @@ Creates a hardened Cloud Storage bucket: uniform bucket-level access, public acc
 
 ```hcl
 module "bucket" {
-  source  = "app.harness.io/<HARNESS_ACCOUNT_ID>/gcp-bucket/google"
+  source  = "app.harness.io/jDOmhrFmSOGZJ1C91UC_hg/gcp-bucket/google"
   version = "<VERSION>"
 
   project_id = "my-project"

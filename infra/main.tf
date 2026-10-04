@@ -9,11 +9,11 @@ locals {
   }
 }
 
-# Replace <HARNESS_ACCOUNT_ID> and <VERSION> with the values from the
+# Replace <VERSION> with the version (and confirm the source) from the
 # module's Instructions tab in the Harness Module Registry.
 # To run before the modules are registered, use: source = "../modules/gcp-network" (and drop version).
 module "network" {
-  source  = "app.harness.io/<HARNESS_ACCOUNT_ID>/gcp-network/google"
+  source  = "app.harness.io/jDOmhrFmSOGZJ1C91UC_hg/gcp-network/google"
   version = "<VERSION>"
 
   project_id  = var.project_id
@@ -24,7 +24,7 @@ module "network" {
 
 # To run before the modules are registered, use: source = "../modules/gcp-bucket" (and drop version).
 module "artifacts_bucket" {
-  source  = "app.harness.io/<HARNESS_ACCOUNT_ID>/gcp-bucket/google"
+  source  = "app.harness.io/jDOmhrFmSOGZJ1C91UC_hg/gcp-bucket/google"
   version = "<VERSION>"
 
   project_id        = var.project_id
