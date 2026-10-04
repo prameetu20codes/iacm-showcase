@@ -1,0 +1,23 @@
+trigger:
+  name: drift-check-every-6h
+  identifier: drift_check_every_6h
+  enabled: true
+  orgIdentifier: <ORG_ID>
+  projectIdentifier: <PROJECT_ID>
+  pipelineIdentifier: iacm_showcase_drift
+  source:
+    type: Scheduled
+    spec:
+      type: Cron
+      spec:
+        type: UNIX
+        expression: 0 */6 * * *
+  inputYaml: |
+    pipeline:
+      identifier: iacm_showcase_drift
+      stages:
+        - stage:
+            identifier: drift
+            type: IACM
+            spec:
+              workspace: showcase_prod

@@ -1,0 +1,37 @@
+pipeline:
+  name: iacm-showcase-pr-plan
+  identifier: iacm_showcase_pr_plan
+  orgIdentifier: <ORG_ID>
+  projectIdentifier: <PROJECT_ID>
+  tags:
+    showcase: iacm
+  stages:
+    - stage:
+        name: pr-plan
+        identifier: pr_plan
+        description: Speculative plan on every pull request; the plan is posted back to the PR as a comment.
+        type: IACM
+        spec:
+          workspace: showcase_dev
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: IACMTerraformPlugin
+                  name: init
+                  identifier: init
+                  timeout: 10m
+                  spec:
+                    command: init
+              - step:
+                  type: IACMTerraformPlugin
+                  name: plan
+                  identifier: plan
+                  timeout: 10m
+                  spec:
+                    command: plan

@@ -1,0 +1,127 @@
+pipeline:
+  name: iacm-showcase-provision
+  identifier: iacm_showcase_provision
+  orgIdentifier: <ORG_ID>
+  projectIdentifier: <PROJECT_ID>
+  tags:
+    showcase: iacm
+  stages:
+    - stage:
+        name: provision-dev
+        identifier: provision_dev
+        description: Queue, validate, plan (cost + OPA), auto-approve only when nothing changes, apply, read outputs.
+        type: IACM
+        spec:
+          workspace: showcase_dev
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Queue
+                  name: queue
+                  identifier: queue
+                  timeout: 30m
+                  spec:
+                    key: <+org.identifier>-<+project.identifier>-showcase_dev
+                    scope: Stage
+              - step:
+                  type: IACMTerraformPlugin
+                  name: init
+                  identifier: init
+                  timeout: 10m
+                  spec:
+                    command: init
+              - step:
+                  type: IACMTerraformPlugin
+                  name: validate
+                  identifier: validate
+                  timeout: 10m
+                  spec:
+                    command: validate
+              - step:
+                  type: IACMTerraformPlugin
+                  name: plan
+                  identifier: plan
+                  timeout: 10m
+                  spec:
+                    command: plan
+              - step:
+                  type: IACMApproval
+                  name: approve-dev
+                  identifier: approve_dev
+                  timeout: 1h
+                  spec:
+                    autoApprove: true
+              - step:
+                  type: IACMTerraformPlugin
+                  name: apply
+                  identifier: apply
+                  timeout: 20m
+                  spec:
+                    command: apply
+              - step:
+                  type: Run
+                  name: show-outputs
+                  identifier: show_outputs
+                  timeout: 5m
+                  spec:
+                    shell: Sh
+                    command: |-
+                      echo "VM:     <+workspace.showcase_dev.instance_name> (<+workspace.showcase_dev.instance_internal_ip>)"
+                      echo "Bucket: <+workspace.showcase_dev.bucket_url>"
+    - stage:
+        name: provision-prod
+        identifier: provision_prod
+        description: Same flow against the prod workspace, with a mandatory manual approval.
+        type: IACM
+        spec:
+          workspace: showcase_prod
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Queue
+                  name: queue
+                  identifier: queue
+                  timeout: 30m
+                  spec:
+                    key: <+org.identifier>-<+project.identifier>-showcase_prod
+                    scope: Stage
+              - step:
+                  type: IACMTerraformPlugin
+                  name: init
+                  identifier: init
+                  timeout: 10m
+                  spec:
+                    command: init
+              - step:
+                  type: IACMTerraformPlugin
+                  name: plan
+                  identifier: plan
+                  timeout: 10m
+                  spec:
+                    command: plan
+              - step:
+                  type: IACMApproval
+                  name: approve-prod
+                  identifier: approve_prod
+                  timeout: 1h
+                  spec:
+                    autoApprove: false
+              - step:
+                  type: IACMTerraformPlugin
+                  name: apply
+                  identifier: apply
+                  timeout: 20m
+                  spec:
+                    command: apply

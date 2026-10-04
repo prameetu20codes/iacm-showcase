@@ -1,0 +1,28 @@
+trigger:
+  name: pr-plan-on-pull-request
+  identifier: pr_plan_on_pull_request
+  enabled: true
+  orgIdentifier: <ORG_ID>
+  projectIdentifier: <PROJECT_ID>
+  pipelineIdentifier: iacm_showcase_pr_plan
+  source:
+    type: Webhook
+    spec:
+      type: Github
+      spec:
+        type: PullRequest
+        spec:
+          connectorRef: <GITHUB_CONNECTOR_ID>
+          autoAbortPreviousExecutions: true
+          payloadConditions:
+            - key: targetBranch
+              operator: Equals
+              value: main
+            - key: changedFiles
+              operator: StartsWith
+              value: infra/
+          headerConditions: []
+          actions:
+            - Open
+            - Reopen
+            - Synchronize
