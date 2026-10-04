@@ -63,7 +63,11 @@ git push origin --tags
 
 ### 3. Harness connectors
 
-1. **GitHub connector** with API access enabled (needed for PR comments and webhooks).
+1. **GitHub connector**, configured exactly like this (module onboarding fails with "could not find a Github token" otherwise):
+   - Connection Type **HTTP** (not SSH).
+   - Authentication **Username and Token**, using a GitHub PAT with `repo`, `user`, `admin:repo_hook` scopes, stored as a Harness secret.
+   - **Enable API access** on, API Authentication **Personal Access Token**, same secret.
+   - Connectivity **Connect through Harness Platform** (required for Harness Cloud runs).
 2. **GCP connector** using the service account key or OIDC.
 
 ### 4. Module Registry
